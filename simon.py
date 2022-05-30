@@ -1,7 +1,7 @@
 import math
 
 import flask
-from flask import request, jsonify, send_from_directory, send_file
+from flask import request, jsonify, send_from_directory, send_file, redirect
 import numpy as np
 # importing Qiskit
 from qiskit import BasicAer, IBMQ
@@ -61,6 +61,10 @@ swagger_url = '/home'
 API_url = '/static/simon_api.json'
 swagger_ui_blueprint = get_swaggerui_blueprint(swagger_url,API_url,config={'app_name':'QuLib'})
 app.register_blueprint(swagger_ui_blueprint, url_prefix=swagger_url)
+
+@app.route('/',methods=['GET'])
+def indx():
+    return redirect('/home')
 
 
 @app.route('/demo/get_simon_oracle',methods=['GET'])

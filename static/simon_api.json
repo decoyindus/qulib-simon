@@ -1,0 +1,110 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Simon's algorithm",
+    "description": "Simon's algorithm was the first quantum algorithm to show an exponential speed-up versus the best classical algorithm in solving a specific problem. It aims to solve the following problem. Let’s say you have a black box function (an unknown function which you can’t “see” into) that is either 1:1 — it maps one input to each output — or 2:1 — it maps two inputs to one each output. If the function is a 2:1 function the inputs that lead to the same output are related through the XOR operator on a bit string. We want to figure out if the function is 1:1 or 2:1, and if it is 2:1, what the bit string is. In case of a 1:1 fuction, the bit string is simply all 0s."
+  },
+  "paths": {
+    "/demo/get_simon_oracle": {
+      "get": {
+        "tags": [
+          "Get a custom oracle circuit for Simon's algorithm."
+        ],
+        "description": "Provides a custom qiskit.QuantumCircuit of the required specifications, in string format.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "key",
+            "required": true,
+            "description": "A binary bit-string which acts as the hidden key of the oracle function.",
+            "schema": {
+              "type": "string",
+              "example": "00111"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the quantum circuit for the Simon's algorithm in string format, along with the key."
+          }
+        }
+      }
+    },
+    "/demo/get_simon_key": {
+      "get": {
+        "tags": [
+          "Find the key bit-string of orarcle using Simon's algorithm."
+        ],
+        "description": "Implement Simon's algorithm to find the key bit-string of the given circuit and find whether it represents a 1-to-1 function or a 2-to-1 function, given that its one of them.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "circuit",
+            "required": true,
+            "description": "The quantum circuit of our oracle function, in string format",
+            "schema": {
+              "type": "string",
+              "example": "UUlTS0lUAwATAQAAAA...."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Applies Simon's algorithm on the circuit and returns the hidden key bitstring."
+          }
+        }
+      }
+    },
+    "/Simon": {
+      "get": {
+        "tags": [
+          "Apply Simon's Algorithm on bitmaps."
+        ],
+        "description": "Implement Simon's algorithm to find the key bit-string and determine whether a given oracle function is 1-to-1 or 2-to-1, given that it is one of them.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "bitmap",
+            "required": true,
+            "description": "Input truth-table of oracle fuction in bitmap format.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": [
+                "01101001",
+                "10011001",
+                "01100110"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "key",
+            "required": true,
+            "description": "API key for IBM-Q Quantum Experience Cloud access.",
+            "schema": {
+              "type": "string",
+              "example": "Enter API key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Applies Simon's algorithm on the bitmap and returns the hidden key of corresponding oracle function. ",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "011"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
